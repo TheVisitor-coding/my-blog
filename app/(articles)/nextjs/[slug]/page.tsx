@@ -1,6 +1,5 @@
 import fs from 'fs'
 import path from 'path'
-import matter from 'gray-matter'
 
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getPost } from '@/services/articleFunc'
@@ -15,15 +14,14 @@ export async function generateStaticParams() {
     return paths
 }
 
-export default function article({params}: {params: {slug: string}}) {
-    const article = getPost(params)
+export default function ArticlePage({params}: {params: {slug: string}}) {
+    const { frontMatter, content } = getPost(params)
 
      return (
         <article className='flex flex-col gap-2'>
-            <h1>{article.frontMatter.title}</h1>
+            <h1>{frontMatter.title}</h1>
             
-            <MDXRemote source={article.content}/>
+            <MDXRemote source={content}/>
         </article>
     )
-
 }
